@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nyc_news/widget/shimmer_list.dart';
 import '../domain/news_popular_item.dart';
 import '../data/news_item/respository/news_popular_repository.dart';
 import '../widget/news_list_item.dart';
@@ -37,7 +38,7 @@ class _PopularNewsState extends State<PopularNews> {
       ),
       body: _popularNewsItem == null
           ? const Center(
-              child: CircularProgressIndicator(),
+              child: ShimmerListWidget(),
             )
           : RefreshIndicator(
               onRefresh: loadPopularNews,
