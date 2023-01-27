@@ -4,5 +4,5 @@ A Simple application which uses the NY Times Most popular Articles API -https://
 
 ## Getting Started
 
-<video src='https://raw.githubusercontent.com/rajeshmadasu/FlutterNewsApp/main/screenshots/newsapp.mp4' width=180/>
+<video src='https://raw.githubusercontent.com/rajeshmadasu/FlutterNewsApp/main/screenshots/newsapp.mp4' width=180></video>
 <!-- <img src="https://raw.githubusercontent.com/rajeshmadasu/FlutterNewsApp/main/screenshots/newsapp.mp4"  width="160" height="300" /> -->
