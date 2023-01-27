@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_nyc_news/screens/news_detail_view.dart';
 
 import '../domain/news_popular_item.dart';
-import '../screens/news_detail_view.dart';
 
 class NewsListItem extends StatelessWidget {
   final NewsPopularItem newsPopularItem;
