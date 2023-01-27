@@ -4,50 +4,42 @@ import '../domain/news_popular_item.dart';
 import '../data/news_item/respository/news_popular_repository.dart';
 import '../widget/news_list_item.dart';
 
-class PopularNews extends StatefulWidget {
+class PopularNews extends StatelessWidget {
   final String title;
   const PopularNews(this.title, {super.key});
 
-  @override
-  State<PopularNews> createState() => _PopularNewsState();
-}
-
-class _PopularNewsState extends State<PopularNews> {
-  List<NewsPopularItem>? _popularNewsItem;
-
-  Future<void> loadPopularNews() async {
-    List<NewsPopularItem>? list =
-        (await (NewsPopularListRepositoryImpl().getPopularNewsItems()));
-
-    setState(() {
-      _popularNewsItem = list;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadPopularNews();
+  Future<List<NewsPopularItem>?> loadPopularNews() async {
+    return await (NewsPopularListRepositoryImpl().getPopularNewsItems());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
       ),
-      body: _popularNewsItem == null
-          ? const Center(
-              child: ShimmerListWidget(),
-            )
-          : RefreshIndicator(
-              onRefresh: loadPopularNews,
-              child: ListView.builder(
-                itemBuilder: (context, index) =>
-                    NewsListItem(newsPopularItem: _popularNewsItem![index]),
-                itemCount: _popularNewsItem!.length,
-              ),
-            ),
+      body: RefreshIndicator(
+        onRefresh: loadPopularNews,
+        child: FutureBuilder(
+            future: loadPopularNews(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const ShimmerListWidget();
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                return ListView.builder(
+                  itemBuilder: (context, index) => NewsListItem(
+                      newsPopularItem:
+                          (snapshot.data as List<NewsPopularItem>)[index]),
+                  itemCount: snapshot.data!.length,
+                );
+              } else if (snapshot.hasError) {
+                return const Text("Something went wrong",
+                    style: TextStyle(color: Colors.cyan, fontSize: 36));
+              } else {
+                return Text('State: ${snapshot.connectionState}');
+              }
+            }),
+      ),
     );
   }
 }
